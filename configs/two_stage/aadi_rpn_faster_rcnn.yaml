@@ -1,0 +1,22 @@
+_BASE_: "../rpn/aadi_rpn.yaml"
+MODEL:
+  META_ARCHITECTURE: "GeneralizedRCNN"
+  ROI_HEADS:
+    NAME: LazyRoIHeads
+    IOU_THRESHOLDS: [0.6]
+    POST_NMS_TOPK_TRAIN: 1000
+    POST_NMS_TOPK_TEST: 1000
+    BATCH_SIZE_PER_IMAGE: 512
+    SCORE_THRESH_TEST: 0.001
+    NMS_THRESH_TEST: 0.6
+  ROI_BOX_HEAD:
+    BBOX_REG_WEIGHTS: [20.0, 20.0, 10.0, 10.0]
+# Lazy RoI heads may generate large gradient
+SOLVER:
+  CLIP_GRADIENTS:
+    ENABLED: True
+DATASETS:
+  TRAIN: ("coco_2017_train",)
+  TEST: ("coco_2017_val",)
+TEST:
+  EVAL_PERIOD: 5000

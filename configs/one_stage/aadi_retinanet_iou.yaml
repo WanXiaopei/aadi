@@ -1,0 +1,5 @@
+_BASE_: "./aadi_retinanet.yaml"
+MODEL:
+  RETINANET:
+    IOU_THRESHOLDS: [0.5]
+    IOU_ENABLED: True

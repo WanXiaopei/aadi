@@ -1,0 +1,28 @@
+_BASE_: "../Base-RCNN-FPN.yaml"
+MODEL:
+  META_ARCHITECTURE: "ProposalNetwork"
+  WEIGHTS: "detectron2://ImageNetPretrained/MSRA/R-50.pkl"
+  BACKBONE:
+    NAME: "build_resnet_fpn_backbone"
+  MASK_ON: False
+  RESNETS:
+    DEPTH: 50
+  PROPOSAL_GENERATOR:
+    NAME: AADIRPN
+  RPN:
+    BATCH_SIZE_PER_IMAGE: 512
+    PRE_NMS_TOPK_TRAIN: 2000  # Per FPN level
+    PRE_NMS_TOPK_TEST: 1000  # Per FPN level
+    POST_NMS_TOPK_TRAIN: 2000
+    POST_NMS_TOPK_TEST: 1000
+    SMOOTH_L1_BETA: 0.5
+    APPEND_ANCHORS: True
+    BBOX_REG_WEIGHTS: [10.0, 10.0, 5.0, 5.0]
+    # For AADI, we do not need to design the size and scale of anchor,
+    # but need to specify the value of CANDIDATE_DILATION
+    CANDIDATE_DILATION: [3]
+DATASETS:
+  TRAIN: ("coco_2017_train",)
+  TEST: ("coco_2017_val",)
+TEST:
+  EVAL_PERIOD: 5000

@@ -1,0 +1,4 @@
+_BASE_: "./aadi_retinanet.yaml"
+SOLVER:
+  STEPS: (210000, 250000)
+  MAX_ITER: 270000
